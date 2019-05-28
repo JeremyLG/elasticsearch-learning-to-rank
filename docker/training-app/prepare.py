@@ -1,5 +1,8 @@
 from urllib.parse import urljoin
 import requests
+from utils import Elasticsearch
+from indexer import Indexer
+
 
 def downloadLtrResource(resource):
     ltrDomain = 'http://es-learn-to-rank.labs.o19s.com/'
@@ -16,4 +19,6 @@ def downloadLtrResource(resource):
 if __name__ == "__main__":
     downloadLtrResource('tmdb.json')
     downloadLtrResource('RankLib-2.8.jar')
-    
+    es = Elasticsearch(timeout=30)
+    indexer = Indexer(es)
+    indexer.prepare()

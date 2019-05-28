@@ -2,3 +2,4 @@ docker/elasticsearch/esdata1/nodes/*
 docker/training-app/model.txt
 docker/training-app/sample_judgments_wfeatures.txt
 __pycache__
+.ipynb_checkpoints/

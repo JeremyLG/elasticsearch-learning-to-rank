@@ -43,6 +43,21 @@ services:
     networks:
       - esnet
 
+  comet-usecase:
+    build: ../docker/comet-usecase
+    ports:
+      - "8888:8888"
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch
+      - training-app
+    environment:
+      - ES_HOST=http://elasticsearch:9200
+      - ES_INDEX=tmdb
+      - ES_TYPE=movie
+    volumes:
+      - ../docker/comet-usecase:/opt/comet-usecase
 
 volumes:
   esdata1:
