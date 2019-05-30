@@ -6,7 +6,7 @@ from requests.auth import HTTPBasicAuth
 
 __all__ = ["ES_AUTH", "ES_HOST", "ES_INDEX", "ES_TYPE", "ES_DATA",
            "ES_FEATURE_SET_NAME", "ES_MODEL_TYPE", "ES_METRIC_TYPE",
-           "Elasticsearch"]
+           "ES_OBJECT"]
 
 ES_HOST = os.environ['ES_HOST']
 ES_USER = os.environ.get('ES_USER', None)
@@ -26,17 +26,27 @@ else:
     auth = None
     ES_AUTH = None
 
+ES_OBJECT = elasticsearch.Elasticsearch(ES_HOST, timeout=1000, http_auth=auth)
 
-def Elasticsearch(url=None, timeout=1000, http_auth=auth):
-    if url is None:
-        url = ES_HOST
 
-    return elasticsearch.Elasticsearch(url, timeout=timeout,
-                                       http_auth=http_auth)
+def index_exists_and_has_data():
+    """Check si l'index de base a été crée et s'il contient bien de la donnée indexée"""
+    if ES_OBJECT.indices.exists(index=ES_INDEX):
+        count_all_query = {
+            "query": {
+                "match_all": {}
+            }
+        }
+        count = ES_OBJECT.count(index=ES_INDEX, body=count_all_query)
+        return (count and count != 0)
+    else:
+        return False
 
 
 def insertDataframeIntoElastic(df, fields, index=ES_INDEX, typ=ES_TYPE,
                                server=ES_HOST, chunk_size=2000):
+    """Currently not used. Doesn't work well, bulk with a generator is much better.
+    But still not perfect. TO IMPROVE"""
     headers = {'content-type': 'application/x-ndjson',
                'Accept-Charset': 'UTF-8'}
     records = df[fields].to_dict(orient='records')

@@ -1,0 +1,9 @@
+run:
+  level: DEBUG # either DEBUG or INFO for example
+  modes: check_index,processing,nlp
+  mode_options:
+    processing:
+    # either autocomplete, french or basic_english
+      indexation_mode: basic_english
+directories:
+  logging_path: logs/info.log
