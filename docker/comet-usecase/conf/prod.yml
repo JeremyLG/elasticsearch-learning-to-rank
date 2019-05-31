@@ -1,9 +1,19 @@
 run:
-  level: DEBUG # either DEBUG or INFO for example
-  modes: check_index,processing,nlp
+  level: DEBUG  # either DEBUG or INFO for example
+  modes: check_index,processing,searching  # check_index,processing,searching,nlp
   mode_options:
     processing:
-    # either autocomplete, french or basic_english
-      indexation_mode: basic_english
+      index: tmdb
+      indexation_mode: french  # either autocomplete, french or basic_english
+      force_rewrite: False
+      fields_to_index: cast,genres,title
+      id_field: id
+      supplementary_fields: popularity,vote_average
+    searching:
+      index: tmdb_basic_english  # base on index read and indexation_mode
+      query: referer
+      fields_to_search: title
+      popularity_field: popularity
+      fuzziness:  # Can be set empty
 directories:
   logging_path: logs/info.log

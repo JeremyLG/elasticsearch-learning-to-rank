@@ -29,15 +29,15 @@ else:
 ES_OBJECT = elasticsearch.Elasticsearch(ES_HOST, timeout=1000, http_auth=auth)
 
 
-def index_exists_and_has_data():
+def index_exists_and_has_data(index):
     """Check si l'index de base a été crée et s'il contient bien de la donnée indexée"""
-    if ES_OBJECT.indices.exists(index=ES_INDEX):
+    if ES_OBJECT.indices.exists(index=index):
         count_all_query = {
             "query": {
                 "match_all": {}
             }
         }
-        count = ES_OBJECT.count(index=ES_INDEX, body=count_all_query)
+        count = ES_OBJECT.count(index=index, body=count_all_query)
         return (count and count != 0)
     else:
         return False

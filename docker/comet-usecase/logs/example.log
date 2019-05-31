@@ -1,0 +1,54 @@
+2019-05-31 12:52:24,289 - root - INFO - Checking that TMDB Elasticsearch index is created
+2019-05-31 12:52:24,293 - root - INFO - Elasticsearch index has been created and indexed with data
+2019-05-31 12:52:24,293 - root - INFO - Starting processing the index
+2019-05-31 12:52:37,060 - root - INFO - Nombre de documents indexés dans Elasticsearch 25260
+2019-05-31 12:52:37,060 - root - INFO - Shape du dataframe indexé (27659, 31)
+2019-05-31 12:52:37,060 - root - WARNING - There is a difference of 2399 documents indexed in Elasticsearch from the pandas dataframe from initial 27659 documents in dataframe
+2019-05-31 12:52:37,371 - root - INFO - Starting to search in the index processed
+2019-05-31 12:52:37,372 - root - INFO - Applying autocomplete search
+2019-05-31 12:52:37,372 - root - INFO - Executing the basic multi match query
+2019-05-31 12:52:37,378 - root - INFO - Search query qui a été appliqué
+2019-05-31 12:52:37,378 - root - INFO - {
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query": "Bvb",
+          "fields": [
+            "cast",
+            "genres",
+            "title"
+          ],
+          "fuzziness": 1.7320508075688772,
+          "analyzer": "autocomplete_search"
+        }
+      },
+      "boost_mode": "multiply",
+      "max_boost": 1,
+      "functions": [
+        {
+          "field_value_factor": {
+            "field": "popularity",
+            "modifier": "log1p",
+            "factor": 1
+          }
+        }
+      ]
+    }
+  },
+  "size": 12
+}
+2019-05-31 12:52:37,378 - root - INFO - Printing des top hits
+2019-05-31 12:52:37,379 - root - INFO - Titre du film trouvé : Baby Driver
+2019-05-31 12:52:37,380 - root - INFO - Titre du film trouvé : The Boss Baby
+2019-05-31 12:52:37,380 - root - INFO - Titre du film trouvé : The Shawshank Redemption
+2019-05-31 12:52:37,380 - root - INFO - Titre du film trouvé : Babel
+2019-05-31 12:52:37,380 - root - INFO - Titre du film trouvé : Monsters, Inc.
+2019-05-31 12:52:37,380 - root - INFO - Titre du film trouvé : Million Dollar Baby
+2019-05-31 12:52:37,380 - root - INFO - Titre du film trouvé : No Good Deed
+2019-05-31 12:52:37,380 - root - INFO - Titre du film trouvé : Cars 3
+2019-05-31 12:52:37,381 - root - INFO - Titre du film trouvé : Babylon A.D.
+2019-05-31 12:52:37,381 - root - INFO - Titre du film trouvé : Monsters University
+2019-05-31 12:52:37,381 - root - INFO - Titre du film trouvé : Up
+2019-05-31 12:52:37,381 - root - INFO - Titre du film trouvé : The Babadook
+2019-05-31 12:52:37,381 - root - INFO - Search finished executing in 
