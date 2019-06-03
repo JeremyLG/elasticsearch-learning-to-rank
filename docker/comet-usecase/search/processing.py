@@ -5,6 +5,7 @@ import json
 import logging
 from multiprocessing import Pool
 from elasticsearch_dsl import Search
+# from collections import deque
 
 from index_creation import AutocompleteIndex, FrenchAnalyserIndex, BasicEnglishIndex
 from utils import ES_OBJECT, ES_INDEX, ES_TYPE  # , insertDataframeIntoElastic
@@ -58,12 +59,21 @@ def multithread_dataframe_concat():
     return df
 
 
-def elasticsearch_easy_read_pandas():
+def elasticsearch_easy_read_pandas(index=ES_INDEX):
     """Le multi-threading n'est pas parfaitement fault tolerant à cause d'un faible nombre de
     thread en local sur le PC. Plus également perdu dans l'ouverture des sockets.
     Donc implémentation d'un easy_read pour un effet démo plus sûr"""
-    s = Search(using=ES_OBJECT, index=ES_INDEX)
-    return pd.DataFrame((d.to_dict() for d in s.scan()))
+    s = Search(using=ES_OBJECT, index=index)
+    count = sum(1 for _ in s.scan())
+    s = s.params(preserve_order=True)
+    # output_all = deque()
+    # # Extend deque with iterator
+    # output_all.extend(d.to_dict() for d in s.scan())
+    # # Convert deque to DataFrame
+    # output_df = pd.io.json.json_normalize(output_all)
+    df = pd.DataFrame((d.to_dict() for d in s.scan()))
+    assert df.shape[0] == count
+    return df
 
 
 def drop_nan_rows(df, columns):

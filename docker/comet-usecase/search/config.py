@@ -23,3 +23,8 @@ QUERY = searching_dict["query"]
 POPULARITY_FIELD = searching_dict["popularity_field"]
 FUZZINESS = searching_dict["fuzziness"]
 FIELDS_TO_SEARCH = searching_dict["fields_to_search"]
+
+nlp_dict = conf_dict["run"]["mode_options"]["nlp"]
+FIELD_TO_EMBED = nlp_dict["field_to_embed"]
+RETRAIN_MODEL = nlp_dict["retrain_model"]
+MODEL_PATH = nlp_dict["model_path"]

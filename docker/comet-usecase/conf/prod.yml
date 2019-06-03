@@ -1,12 +1,12 @@
 run:
   level: DEBUG  # either DEBUG or INFO for example
-  modes: check_index,processing,searching  # check_index,processing,searching,nlp
+  modes: check_index,processing,searching,nlp  # check_index,processing,searching,nlp
   mode_options:
     processing:
       index: tmdb
-      indexation_mode: french  # either autocomplete, french or basic_english
+      indexation_mode: basic_english  # either autocomplete, french or basic_english
       force_rewrite: False
-      fields_to_index: cast,genres,title
+      fields_to_index: cast,genres,title,overview
       id_field: id
       supplementary_fields: popularity,vote_average
     searching:
@@ -15,5 +15,9 @@ run:
       fields_to_search: title
       popularity_field: popularity
       fuzziness:  # Can be set empty
+    nlp:
+      retrain_model: False
+      model_path: models/d2v.model
+      field_to_embed: overview
 directories:
   logging_path: logs/info.log

@@ -6,6 +6,7 @@ import pathlib
 
 import processing as P
 import search as S
+import nlp as N
 from config import CONF_DIR, INDEX_READ, RUN_MODES, LOG_FILE_PATH, PROCESSED_INDEX, FORCE_REWRITE
 from utils import index_exists_and_has_data
 
@@ -34,19 +35,21 @@ def run_modes():
             S.main()
         if mode == "nlp":
             logging.info("Starting the NLP pipeline before indexing to ES")
-            pass
+            N.main()
 
 
 def main():
     """Check logs directory exists, open log file for logger, initializes the logger and run"""
-    check_logs_directory_exists()
+    check_directories_exists()
     open(LOG_FILE_PATH, 'w').close()
     initializes_logger()
     run_modes()
 
 
-def check_logs_directory_exists():
+def check_directories_exists():
+    """Checking logs and models directories"""
     pathlib.Path('logs/').mkdir(parents=True, exist_ok=True)
+    pathlib.Path('models/').mkdir(parents=True, exist_ok=True)
 
 
 if __name__ == '__main__':

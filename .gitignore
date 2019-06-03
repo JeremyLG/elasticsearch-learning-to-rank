@@ -4,3 +4,4 @@ docker/training-app/sample_judgments_wfeatures.txt
 __pycache__
 .ipynb_checkpoints/
 info.log
+models/
